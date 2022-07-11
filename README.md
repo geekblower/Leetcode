@@ -1,6 +1,4 @@
-# Leetcode Solutions (@geekblower)
-
-<br></br>
+# Leetcode Solutions <i><h6>@geekblower</h6></i>
 
 
 

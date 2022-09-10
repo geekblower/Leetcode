@@ -6,10 +6,8 @@ public:
         
         while((s[i]<'0' || s[i]>'9') && i<n)
                 i++;
+        
         int num = s[i] - '0';
-        
-        //cout<<"Before num = "<<num<<" & s[i] = "<<s[i]<<endl;
-        
         i++;
         if(s[i]>='0' && s[i]<='9' && i<n) {
             num *= 10;
@@ -24,16 +22,12 @@ public:
             if(i>=n)
                 break;
             
-            //cout<<"s[i] = "<<s[i]<<endl;
-            
             int newNum = s[i] - '0';
             i++;
             if(s[i]>='0' && s[i]<='9' && i<n) {
                 newNum *= 10;
                 newNum += (s[i] - '0');
             }
-            
-            //cout<<"Current num = "<<num<<" & newNum = "<<newNum<<endl;
             
             if(newNum <= num)
                 return false;

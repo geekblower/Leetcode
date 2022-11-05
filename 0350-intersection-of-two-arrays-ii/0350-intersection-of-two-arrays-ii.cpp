@@ -10,15 +10,11 @@ public:
         int len2 = nums2.size();
         
         while(i<len1 && j<len2) {
-            //cout<<"In loop for i = "<<i<<" & j = "<<j<<" & len1 = "<<len1<<" & len2 = "<<len2<<endl;
             if(nums1[i]<nums2[j]) {
-                //cout<<"One\n";
                 i++;
             } else if(nums1[i]>nums2[j]) {
-                //cout<<"Two\n";
                 j++;
             } else {
-                //cout<<"Third\n";
                 answer.push_back (nums1[i]);
                 i++;
                 j++;

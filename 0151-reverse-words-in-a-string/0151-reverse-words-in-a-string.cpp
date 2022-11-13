@@ -1,5 +1,6 @@
 class Solution {
 public:
+    // Bruteforce Approach
     string reverseWords(string s) {
         string answer = "";
         reverse(s.begin(), s.end());

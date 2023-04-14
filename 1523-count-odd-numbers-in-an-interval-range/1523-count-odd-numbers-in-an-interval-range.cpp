@@ -1,22 +1,20 @@
 class Solution {
-public:
+    public:
     int countOdds(int low, int high) {
-        /*
-        int ans = 0;
-        
-        for(; low<=high; low++) {
-            if(low&1)
-                ans++;
+        int count = 0;
+
+        if(low%2 == 1) {
+            count++;
+            low += 2;
+        } else {
+            low++;
         }
         
-        return ans;
-        */
-        
-        int ans = (high-low)/2;
-        
-        if(low&1 || high&1)
-            ans += 1;
-        
-        return ans;
+        while(low <= high) {
+            count++;
+            low += 2;
+        }
+
+        return count;
     }
 };

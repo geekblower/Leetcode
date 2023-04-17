@@ -8,50 +8,43 @@
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
-
 class Solution {
-public:
-    void deleteNodeByPosition(ListNode* &head, int position) {
-        if(position == 1) {
-            ListNode* current = head;
-            head = current->next;
-            delete current;
+private:
+    void deletePosition(ListNode* &head, int pos) {
+        if(pos == 1) {
+            ListNode* target = head;
+            head = head->next;
+            delete target;
             return;
         }
 
-        ListNode* tempNode = head;
-        int count = 1;
+        ListNode* temp = head;
 
-        while(count < position-1) {
-            tempNode = tempNode->next;
-            count++;
+        while(temp!=NULL && pos>2) {
+            temp = temp->next;
+            pos--;
         }
 
-        ListNode* current = tempNode->next;
-        
-        if(current != NULL)
-            tempNode->next = current->next;
-
-        delete current;
+        ListNode* target = temp->next;
+        temp->next = target->next;
+        delete target;
     }
     
+public:
     ListNode* removeElements(ListNode* head, int val) {
-        if(head == NULL)
-            return head;
-        
         ListNode* temp = head;
-        int pos = 1;
-        
+        int position = 1;
+
         while(temp != NULL) {
             if(temp->val == val) {
                 temp = temp->next;
-                deleteNodeByPosition(head, pos);
+                deletePosition(head, position);
             } else {
                 temp = temp->next;
-                pos++;
+                position++;
             }
         }
-        
+
         return head;
     }
 };

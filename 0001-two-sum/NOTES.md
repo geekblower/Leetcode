@@ -21,3 +21,7 @@
  HELLO 10
  HELLO 11
  HELLO 12
+
+// part 3
+
+HeLlo 1

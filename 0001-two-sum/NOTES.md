@@ -24,4 +24,5 @@
 
 // part 3
 
-HeLlo 1
+HeLlO 1
+HeLlO 2

@@ -37,12 +37,10 @@ public:
         }
 
         if(root->left) {
-            // cout << "Val = " << root->val << " ->";
             solve(root->left, (temp + getString(root->val) + "->"), solution);
         }
 
         if(root->right) {
-            // cout << "Val = " << root->val << " ->";
             solve(root->right, (temp + getString(root->val) + "->"), solution);
         }
     }

@@ -9,27 +9,23 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-
 class Solution {
 public:
-    TreeNode* sortedArrayToBST(vector<int>& nums) {
-        return helper(nums, 0, nums.size()-1);
+    void solve(TreeNode* &root, vector<int>& nums, int start, int end) {
+        if(start > end) {
+            return;
+        }
+
+        int mid = start + (end-start)/2;
+        root = new TreeNode(nums[mid]);
+
+        solve(root->left, nums, start, mid-1);
+        solve(root->right, nums, mid+1, end);
     }
-    
-    TreeNode* helper(vector<int>& nums, int left, int right){
-        if(left > right)
-            return NULL;
-        
-        // As middle of the array will be the root node
-        int mid = (left + right) / 2;
-        TreeNode* temp = new TreeNode(nums[mid]);
-        
-        // Left part from middle will be left subtree
-        temp->left = helper(nums, left, mid-1);
-        
-        // Right part of array will be right subtree
-        temp->right = helper(nums, mid+1 , right);
-        
-        return temp;
+
+    TreeNode* sortedArrayToBST(vector<int>& nums) {
+        TreeNode* root = NULL;
+        solve(root, nums, 0, nums.size()-1);
+        return root;
     }
 };

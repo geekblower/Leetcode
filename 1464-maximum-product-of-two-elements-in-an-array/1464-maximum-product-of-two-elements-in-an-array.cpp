@@ -1,7 +1,16 @@
 class Solution {
 public:
     int maxProduct(vector<int>& nums) {
-        sort(nums.begin(), nums.end());
-        return (nums[nums.size()-1]-1) * (nums[nums.size()-2]-1);
+        priority_queue<int> maxHeap;
+
+        for(int x : nums) {
+            maxHeap.push(x);
+        }
+
+        int x = maxHeap.top();
+        maxHeap.pop();
+        int y = maxHeap.top();
+
+        return (x-1)*(y-1);
     }
 };

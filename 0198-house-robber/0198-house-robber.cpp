@@ -1,26 +1,19 @@
 class Solution {
 public:
-    int f(vector<int>& nums, int n, int dp[]) {
-        if(n == 0)
-            return nums[n];
-        
-        if(n < 0)
-            return 0;
-        
-        if(dp[n] != -1)
-            return dp[n];
-        
-        int pick = nums[n] + f(nums, n-2, dp);
-        int notpick = f(nums, n-1, dp);
-        
-        return dp[n] = max(pick, notpick);
-    }
-    
     int rob(vector<int>& nums) {
-        int n = nums.size();
-        int dp[n];
-        memset(dp, -1, sizeof(dp));
+        int prev0 = 0;
+        int prev1 = nums[0];
         
-        return f(nums, n-1, dp);
+        for(int i=1; i<nums.size(); i++) {
+            int inc = nums[i] + prev0;
+            int exc = prev1;
+            
+            int curr = max(inc, exc);
+            
+            prev0 = prev1;
+            prev1 = curr;
+        }
+        
+        return max(prev0, prev1);
     }
 };

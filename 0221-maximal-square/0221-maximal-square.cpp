@@ -44,7 +44,6 @@ public:
     int solveTab(vector<vector<char>>& matrix, int row, int col, int &maxi) {
         vector<vector<int>> dp(row+1, vector<int>(col+1, 0));
         
-
         for(int i=row-1; i>=0; i--) {
             for(int j=col-1; j>=0; j--) {
                 int right = dp[i][j+1];
@@ -62,6 +61,30 @@ public:
         
         return maxi;
     }
+    
+    int solveSpc(vector<vector<char>>& matrix, int row, int col, int &maxi) {
+        vector<int> curr(col+1, 0);
+        vector<int> next(col+1, 0);
+
+        for(int i=row-1; i>=0; i--) {
+            for(int j=col-1; j>=0; j--) {
+                int right = curr[j+1];
+                int diagonal = next[j+1];
+                int bottom = next[j];
+
+                if(matrix[i][j] == '1') {
+                    curr[j] = 1 + min(right, min(diagonal, bottom));
+                    maxi = max(maxi, curr[j]);
+                } else {
+                    curr[j] = 0;
+                }
+            }
+
+            next = curr;
+        }
+        
+        return maxi;
+    }
 
     int maximalSquare(vector<vector<char>>& matrix) {
         int row = matrix.size();
@@ -73,7 +96,9 @@ public:
         // vector<vector<int>> dp(row, vector<int>(col, -1));
         // solveMem(dp, matrix, 0, 0, maxi);
         
-        solveTab(matrix, row, col, maxi);
+        // solveTab(matrix, row, col, maxi);
+        
+        solveSpc(matrix, row, col, maxi);
         return maxi*maxi;
     }
 };

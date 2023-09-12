@@ -75,12 +75,43 @@ public:
         return min(dp[2][0], min(dp[1][0]+1, dp[3][0]+1));
     }
     
+    int solveSpc(vector<int> &obs) {
+        int n = obs.size()-1;
+        vector<int> curr(4, 1e9);
+        vector<int> next(4, 0);
+        
+        for(int pos=n-1; pos>=0; pos--) {
+            for(int lane=1; lane<=3; lane++) {
+                if(obs[pos+1] != lane) {
+                    curr[lane] = next[lane];
+                } else {
+
+                    // SIDEWAYS JUMP
+                    int ans = 1e9;
+                    for(int i=1; i<=3; i++) {
+                        if(lane != i && obs[pos] != i) {
+                            ans = min(ans, 1 + next[i]);
+                        }
+                    }
+
+                    curr[lane] = ans;
+                }
+            }
+            
+            next = curr;
+        }
+        
+        return min(next[2], min(next[1]+1, next[3]+1));
+    }
+    
     int minSideJumps(vector<int>& obstacles) {
         // return solveRec(obstacles, 0, 2);
         
         // vector<vector<int>> dp(4, vector<int>(obstacles.size(), -1));
         // return solveMem(dp, obstacles, 0, 2);
         
-        return solveTab(obstacles);
+        // return solveTab(obstacles);
+        
+        return solveSpc(obstacles);
     }
 };

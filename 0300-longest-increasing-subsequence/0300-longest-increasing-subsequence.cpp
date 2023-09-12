@@ -62,12 +62,38 @@ public:
         return dp[0][0];
     }
     
+    int solveSpc(vector<int> &nums) {
+        vector<int> currRow(nums.size()+1, 0);
+        vector<int> nextRow(nums.size()+1, 0);
+        
+        for(int curr=nums.size()-1; curr>=0; curr--) {
+            for(int prev=curr-1; prev>=-1; prev--) {
+                // Include
+                int incl = 0;
+                if(prev == -1 || nums[curr] > nums[prev]) {
+                    incl = 1 + nextRow[curr+1];
+                }
+
+                // Exclude
+                int excl = nextRow[prev+1];
+
+                currRow[prev+1] = max(incl, excl);
+            }
+            
+            nextRow = currRow;
+        }
+            
+        return nextRow[0];
+    }
+    
     int lengthOfLIS(vector<int>& nums) {
         // return solveRec(nums, 0, -1);    
         
         // vector<vector<int>> dp(nums.size(), vector<int>(nums.size()+1, -1));
         // return solveMem(dp, nums, 0, -1);
         
-        return solveTab(nums);
+        // return solveTab(nums);
+        
+        return solveSpc(nums);
     }
 };

@@ -41,10 +41,33 @@ public:
         return dp[curr][prev+1];
     }
     
+    int solveTab(vector<int> &nums) {
+        vector<vector<int>> dp(nums.size()+1, vector<int>(nums.size()+1, 0));
+        
+        for(int curr=nums.size()-1; curr>=0; curr--) {
+            for(int prev=curr-1; prev>=-1; prev--) {
+                // Include
+                int incl = 0;
+                if(prev == -1 || nums[curr] > nums[prev]) {
+                    incl = 1 + dp[curr+1][curr+1];
+                }
+
+                // Exclude
+                int excl = dp[curr+1][prev+1];
+
+                dp[curr][prev+1] = max(incl, excl);
+            }
+        }
+            
+        return dp[0][0];
+    }
+    
     int lengthOfLIS(vector<int>& nums) {
         // return solveRec(nums, 0, -1);    
         
-        vector<vector<int>> dp(nums.size(), vector<int>(nums.size()+1, -1));
-        return solveMem(dp, nums, 0, -1);
+        // vector<vector<int>> dp(nums.size(), vector<int>(nums.size()+1, -1));
+        // return solveMem(dp, nums, 0, -1);
+        
+        return solveTab(nums);
     }
 };

@@ -30,12 +30,6 @@ public:
     
     int maxEnvelopes(vector<vector<int>>& envelopes) {
         sort(envelopes.begin(), envelopes.end(), compare);
-        
-        for(auto x : envelopes) {
-            for(auto y : x) cout << y << " ";
-            cout << endl;
-        }
-        
         return solveBinarySearch(envelopes, envelopes.size());
     }
 };

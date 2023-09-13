@@ -55,6 +55,45 @@ public:
         return max(opt1, opt2);
     }
     
+    int solveSpc(vector<int> &slices, int k) {
+        vector<int> prev1(k+2, 0);
+        vector<int> curr1(k+2, 0);
+        vector<int> next1(k+2, 0);
+        
+        vector<int> prev2(k+2, 0);
+        vector<int> curr2(k+2, 0);
+        vector<int> next2(k+2, 0);
+        
+        for(int index = k-2; index >= 0; index--) {
+            for(int n=1; n<=k/3; n++) {
+                int incl = slices[index] + next1[n-1];
+                int excl = curr1[n];
+
+                prev1[n] = max(incl, excl);
+            }
+            
+            next1 = curr1;
+            curr1 = prev1;
+        }
+        
+        for(int index = k-1; index >= 1; index--) {
+            for(int n=1; n<=k/3; n++) {
+                int incl = slices[index] + next2[n-1];
+                int excl = curr2[n];
+
+                prev2[n] = max(incl, excl);
+            }
+            
+            next2 = curr2;
+            curr2 = prev2;
+        }
+        
+        int opt1 = curr1[k/3];
+        int opt2 = curr2[k/3];
+        
+        return max(opt1, opt2);
+    }
+    
     int maxSizeSlices(vector<int>& slices) {
         int k = slices.size();
         int n = k/3;
@@ -62,14 +101,16 @@ public:
         // int opt1 = solveRec(slices, 0, k-2, n);
         // int opt2 = solveRec(slices, 1, k-1, n);
 
-//         vector<vector<int>> dp1(k, vector<int>(k, -1));
-//         int opt1 = solveMem(dp1, slices, 0, k-2, n);
+        // vector<vector<int>> dp1(k, vector<int>(k, -1));
+        // int opt1 = solveMem(dp1, slices, 0, k-2, n);
         
-//         vector<vector<int>> dp2(k, vector<int>(k, -1));
-//         int opt2 = solveMem(dp2, slices, 1, k-1, n);
+        // vector<vector<int>> dp2(k, vector<int>(k, -1));
+        // int opt2 = solveMem(dp2, slices, 1, k-1, n);
 
-//         return max(opt1, opt2);        
+        // return max(opt1, opt2);        
         
-        return solveTab(slices, k);
+        // return solveTab(slices, k);
+        
+        return solveSpc(slices, k);
     }
 };

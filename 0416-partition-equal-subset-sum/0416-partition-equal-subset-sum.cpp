@@ -51,6 +51,32 @@ public:
         return dp[0][target];
     }
     
+    bool solveSpc(vector<int>& nums, int n, int target) {
+        vector<vector<int>> dp(n+1, vector<int>(target+1, 0));
+        
+        vector<int> curr(target+1, 0);
+        vector<int> next(target+1, 0);
+        
+        curr[0] = next[0] = true;
+        
+        for(int i=n-1; i>=0; i--) {
+            for(int t=0; t<=target; t++) {
+                
+                bool incl = false;
+                if(t - nums[i] >= 0)
+                    incl = next[t-nums[i]];
+                
+                bool excl = next[t];
+
+                curr[t] = (incl || excl);
+                
+            }
+            next = curr;
+        }
+        
+        return next[target];
+    }
+    
     bool canPartition(vector<int>& nums) {
         int sum = 0;
         for(int i=0; i<nums.size(); i++) sum += nums[i];
@@ -64,6 +90,8 @@ public:
         // vector<vector<int>> dp(nums.size(), vector<int>(target+1, -1));
         // return solveMem(dp, nums, 0, target);
         
-        return solveTab(nums, nums.size(), target);
+        // return solveTab(nums, nums.size(), target);
+        
+        return solveSpc(nums, nums.size(), target);
     }
 };

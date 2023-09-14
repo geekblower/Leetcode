@@ -35,10 +35,32 @@ public:
         return dp[dices][target];
     }
     
+    int solveTab(int dices, int faces, int target) {
+        vector<vector<int>> dp(dices+1, vector<int>(target+1, 0));
+        dp[0][0] = 1;
+        
+        for(int d=1; d<=dices; d++) {
+            for(int t=1; t<=target; t++) {
+                
+                int ans = 0;
+                for(int i=1; i<=faces; i++) {
+                    if(t-i >= 0)
+                        ans = (ans + dp[d-1][t-i]) % 1000000007;
+                }
+                dp[d][t] = ans;
+                
+            }
+        }
+        
+        return dp[dices][target];
+    }
+    
     int numRollsToTarget(int n, int k, int target) {
         // return solveRec(n, k, target);    
         
-        vector<vector<int>> dp(n+1, vector<int> (target+1, -1));
-        return solveMem(dp, n, k, target);
+        // vector<vector<int>> dp(n+1, vector<int> (target+1, -1));
+        // return solveMem(dp, n, k, target);
+        
+        return solveTab(n, k, target);
     }
 };

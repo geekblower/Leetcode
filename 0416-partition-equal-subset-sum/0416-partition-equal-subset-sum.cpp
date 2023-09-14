@@ -52,8 +52,6 @@ public:
     }
     
     bool solveSpc(vector<int>& nums, int n, int target) {
-        vector<vector<int>> dp(n+1, vector<int>(target+1, 0));
-        
         vector<int> curr(target+1, 0);
         vector<int> next(target+1, 0);
         

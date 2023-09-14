@@ -55,12 +55,38 @@ public:
         return dp[dices][target];
     }
     
+    int solveSpc(int dices, int faces, int target) {
+        vector<int> prev(target+1, 0);
+        vector<int> curr(target+1, 0);
+        
+        prev[0] = 1;
+        
+        for(int d=1; d<=dices; d++) {
+            for(int t=1; t<=target; t++) {
+                
+                int ans = 0;
+                for(int i=1; i<=faces; i++) {
+                    if(t-i >= 0)
+                        ans = (ans + prev[t-i]) % 1000000007;
+                }
+                curr[t] = ans;
+                
+            }
+            
+            prev = curr;
+        }
+        
+        return prev[target];
+    }
+    
     int numRollsToTarget(int n, int k, int target) {
         // return solveRec(n, k, target);    
         
         // vector<vector<int>> dp(n+1, vector<int> (target+1, -1));
         // return solveMem(dp, n, k, target);
         
-        return solveTab(n, k, target);
+        // return solveTab(n, k, target);
+        
+        return solveSpc(n, k, target);
     }
 };

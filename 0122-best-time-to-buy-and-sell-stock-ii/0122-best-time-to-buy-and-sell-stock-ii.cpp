@@ -67,6 +67,35 @@ public:
         return dp[0][1];
     }
     
+    int solveSpc(vector<int>& prices, int n) {
+        vector<int> curr(2, 0);
+        vector<int> next(2, 0);
+        
+        for(int index=n-1; index>=0; index--) {
+            for(int buy=0; buy<=1; buy++) {
+                
+                int profit = 0;
+                if(buy) {
+                    int buyStock = (-prices[index] + next[0]);
+                    int skipStock = next[1];
+
+                    profit = max(buyStock, skipStock);
+                } else {
+                    int sellStock = (prices[index] + next[1]);
+                    int skipStock = next[0];
+
+                    profit = max(sellStock, skipStock);
+                }
+
+                curr[buy] = profit;
+                
+            }
+            next = curr;
+        }
+        
+        return next[1];
+    }
+    
     int maxProfit(vector<int>& prices) {
         int n = prices.size();
         
@@ -75,6 +104,8 @@ public:
         // vector<vector<int>> dp(n, vector<int>(2, -1));
         // return solveMem(dp, prices, 0, 1);
         
-        return solveTab(prices, n);
+        // return solveTab(prices, n);
+        
+        return solveSpc(prices, n);
     }
 };

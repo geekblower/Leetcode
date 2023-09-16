@@ -1,5 +1,25 @@
 class Solution {
 public:
+    int solve(vector<int>& prices, int n, int k, int index, int operations) {
+        if(index == n) return 0;
+        if(operations == 2*k) return 0;
+        
+        int profit = 0;
+        if(!(operations&1)) {
+            int buyStock = (-prices[index] + solve(prices, n, k, index+1, operations+1));
+            int skipStock = solve(prices, n, k, index+1, operations+1);
+            
+            profit = max(buyStock, skipStock);
+        } else {
+            int sellStock = (prices[index] + solve(prices, n, k, index+1, operations+1));
+            int skipStock = solve(prices, n, k, index+1, operations+1);
+            
+            profit = max(sellStock, skipStock);
+        }
+        
+        return profit;
+    }
+    
     int solveSpc(vector<int>& prices, int n, int k) {
         vector<vector<int>> curr(2, vector<int>(k+1,0));
         vector<vector<int>> next(2, vector<int>(k+1,0));

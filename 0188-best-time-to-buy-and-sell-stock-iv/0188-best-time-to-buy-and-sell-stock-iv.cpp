@@ -1,18 +1,18 @@
 class Solution {
 public:
-    int solve(vector<int>& prices, int n, int k, int index, int operations) {
+    int solveRec(vector<int>& prices, int n, int k, int index, int operations) {
         if(index == n) return 0;
         if(operations == 2*k) return 0;
         
         int profit = 0;
-        if(!(operations&1)) {
-            int buyStock = (-prices[index] + solve(prices, n, k, index+1, operations+1));
-            int skipStock = solve(prices, n, k, index+1, operations+1);
+        if(operations%2 == 0) {
+            int buyStock = (-prices[index] + solveRec(prices, n, k, index+1, operations+1));
+            int skipStock = solveRec(prices, n, k, index+1, operations);
             
             profit = max(buyStock, skipStock);
         } else {
-            int sellStock = (prices[index] + solve(prices, n, k, index+1, operations+1));
-            int skipStock = solve(prices, n, k, index+1, operations+1);
+            int sellStock = (prices[index] + solveRec(prices, n, k, index+1, operations+1));
+            int skipStock = solveRec(prices, n, k, index+1, operations);
             
             profit = max(sellStock, skipStock);
         }
@@ -20,7 +20,29 @@ public:
         return profit;
     }
     
-    int solveSpc(vector<int>& prices, int n, int k) {
+    int solveMem(vector<vector<int>> &dp, vector<int>& prices, int n, int k, int index, int operations) {
+        if(index == n) return 0;
+        if(operations == 2*k) return 0;
+        if(dp[index][operations] != -1) return dp[index][operations];
+        
+        int profit = 0;
+        if(operations%2 == 0) {
+            int buyStock = (-prices[index] + solveMem(dp, prices, n, k, index+1, operations+1));
+            int skipStock = solveMem(dp, prices, n, k, index+1, operations);
+            
+            profit = max(buyStock, skipStock);
+        } else {
+            int sellStock = (prices[index] + solveMem(dp, prices, n, k, index+1, operations+1));
+            int skipStock = solveMem(dp, prices, n, k, index+1, operations);
+            
+            profit = max(sellStock, skipStock);
+        }
+        
+        dp[index][operations] = profit;
+        return dp[index][operations];
+    }
+    
+    int solveOptimised(vector<int>& prices, int n, int k) {
         vector<vector<int>> curr(2, vector<int>(k+1,0));
         vector<vector<int>> next(2, vector<int>(k+1,0));
         
@@ -53,6 +75,11 @@ public:
     int maxProfit(int k, vector<int>& prices) {
         int n = prices.size();
         
-        return solveSpc(prices, n, k);
+        // return solveOptimised(prices, n, k);
+        
+        // return solveRec(prices, n, k, 0, 0);
+        
+        vector<vector<int>> dp(n, vector<int>(2*k, -1));
+        return solveMem(dp, prices, n, k, 0, 0);
     }
 };

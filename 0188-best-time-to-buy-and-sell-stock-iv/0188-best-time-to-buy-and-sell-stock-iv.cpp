@@ -42,6 +42,33 @@ public:
         return dp[index][operations];
     }
     
+    int solveTab(vector<int>& prices, int n, int k) {
+        vector<vector<int>> dp(n+1, vector<int>(2*k+1, 0));
+        
+        for(int index=n-1; index>=0; index--) {
+            for(int operations=0; operations<2*k; operations++) {
+                
+                int profit = 0;
+                if(operations%2 == 0) {
+                    int buyStock = (-prices[index] + dp[index+1][operations+1]);
+                    int skipStock = dp[index+1][operations];
+
+                    profit = max(buyStock, skipStock);
+                } else {
+                    int sellStock = (prices[index] + dp[index+1][operations+1]);
+                    int skipStock = dp[index+1][operations];
+
+                    profit = max(sellStock, skipStock);
+                }
+
+                dp[index][operations] = profit;
+                
+            }
+        }
+        
+        return dp[0][0];
+    }
+    
     int solveOptimised(vector<int>& prices, int n, int k) {
         vector<vector<int>> curr(2, vector<int>(k+1,0));
         vector<vector<int>> next(2, vector<int>(k+1,0));
@@ -79,7 +106,9 @@ public:
         
         // return solveRec(prices, n, k, 0, 0);
         
-        vector<vector<int>> dp(n, vector<int>(2*k, -1));
-        return solveMem(dp, prices, n, k, 0, 0);
+        // vector<vector<int>> dp(n, vector<int>(2*k, -1));
+        // return solveMem(dp, prices, n, k, 0, 0);
+        
+        return solveTab(prices, n, k);
     }
 };

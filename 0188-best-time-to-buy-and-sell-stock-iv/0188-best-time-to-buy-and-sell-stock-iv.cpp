@@ -69,46 +69,46 @@ public:
         return dp[0][0];
     }
     
-    int solveOptimised(vector<int>& prices, int n, int k) {
-        vector<vector<int>> curr(2, vector<int>(k+1,0));
-        vector<vector<int>> next(2, vector<int>(k+1,0));
+    int solveSpc(vector<int>& prices, int n, int k) {
+        vector<int> curr(2*k+1, 0);
+        vector<int> next(2*k+1, 0);
         
         for(int index=n-1; index>=0; index--) {
-            for(int buy=0; buy<=1; buy++) {
+            for(int operations=0; operations<2*k; operations++) {
                 
-                for(int limit=1; limit<=k; limit++) {
-                    int profit = 0;
-                    if(buy) {
-                        int buyStock = (-prices[index] + next[0][limit]);
-                        int skipStock = next[1][limit];
+                int profit = 0;
+                if(operations%2 == 0) {
+                    int buyStock = (-prices[index] + next[operations+1]);
+                    int skipStock = next[operations];
 
-                        profit = max(buyStock, skipStock);
-                    } else {
-                        int sellStock = (prices[index] + next[1][limit-1]);
-                        int skipStock = next[0][limit];
+                    profit = max(buyStock, skipStock);
+                } else {
+                    int sellStock = (prices[index] + next[operations+1]);
+                    int skipStock = next[operations];
 
-                        profit = max(sellStock, skipStock);
-                    }
+                    profit = max(sellStock, skipStock);
+                }
 
-                    curr[buy][limit] = profit;
-                }         
+                curr[operations] = profit;
+                
             }
+            
             next = curr;
         }
         
-        return next[1][k];
+        return next[0];
     }
     
     int maxProfit(int k, vector<int>& prices) {
         int n = prices.size();
-        
-        // return solveOptimised(prices, n, k);
         
         // return solveRec(prices, n, k, 0, 0);
         
         // vector<vector<int>> dp(n, vector<int>(2*k, -1));
         // return solveMem(dp, prices, n, k, 0, 0);
         
-        return solveTab(prices, n, k);
+        // return solveTab(prices, n, k);
+        
+        return solveSpc(prices, n, k);
     }
 };

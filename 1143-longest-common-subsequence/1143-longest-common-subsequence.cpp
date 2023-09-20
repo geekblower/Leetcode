@@ -28,7 +28,7 @@ public:
         for(int i=s1.length()-1; i>=0; i--) {
             for(int j=s2.length()-1; j>=0; j--) {
                 if(s1[i] == s2[j]) {
-                    dp[i][j] = 1 + solveMem(dp, s1, s2, i+1, j+1);
+                    dp[i][j] = 1 + dp[i+1][j+1];
                 } else {
                     dp[i][j] = max(dp[i+1][j], dp[i][j+1]);
                 }
@@ -37,6 +37,23 @@ public:
         
         return dp[0][0];
     }
+    
+//     int solveSpc(string s1, string s2) {
+//         vector<vector<int>> dp(s1.length()+1, vector<int>(s2.length()+1, 0));
+//         vector<int> curr()
+        
+//         for(int i=s1.length()-1; i>=0; i--) {
+//             for(int j=s2.length()-1; j>=0; j--) {
+//                 if(s1[i] == s2[j]) {
+//                     dp[i][j] = 1 + solveMem(dp, s1, s2, i+1, j+1);
+//                 } else {
+//                     dp[i][j] = max(dp[i+1][j], dp[i][j+1]);
+//                 }
+//             }
+//         }
+        
+//         return dp[0][0];
+//     }
     
     int longestCommonSubsequence(string text1, string text2) {
         // return solveRec(text1, text2, 0, 0);    

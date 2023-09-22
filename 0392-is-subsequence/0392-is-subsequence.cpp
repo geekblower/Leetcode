@@ -49,12 +49,31 @@ public:
         return dp[i][j];
     }
     
+    bool solveOptimised(string s, string t) {
+        vector<bool> dp(s.length(), 0);
+        
+        int j=t.length()-1;
+        for(int i=s.length()-1; i>=0; i--) {
+            for(; j>=0; j--) {
+                if(s[i] == t[j]) {
+                    dp[i] = true;
+                    j--;
+                    break;
+                }
+            }
+        }
+        
+        return dp[0];
+    }
+    
     bool isSubsequence(string s, string t) {
         if(s.length() == 0) return true;
         
         // return solve(s, t, 0, 0);
         
-        vector<vector<int>> dp(s.length()+1, vector<int>(t.length()+1, -1));
-        return solveMem(dp, s, t, 0, 0);
+        // vector<vector<int>> dp(s.length()+1, vector<int>(t.length()+1, -1));
+        // return solveMem(dp, s, t, 0, 0);
+        
+        return solveOptimised(s, t);
     }
 };

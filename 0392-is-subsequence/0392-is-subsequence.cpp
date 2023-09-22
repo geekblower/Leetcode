@@ -70,6 +70,8 @@ public:
         int j=t.length()-1;
 
         for(int i=s.length()-1; i>=0; i--) {
+            if(j<0) return false;
+            
             for(; j>=0; j--) {
                 if(s[i] == t[j]) {
                     if(i==0) return true;

@@ -49,7 +49,7 @@ public:
         return dp[i][j];
     }
     
-    bool solveOptimised(string s, string t) {
+    bool solveTab(string s, string t) {
         vector<bool> dp(s.length(), 0);
         
         int j=t.length()-1;
@@ -66,6 +66,22 @@ public:
         return dp[0];
     }
     
+    bool solveOptimised(string s, string t) {
+        int j=t.length()-1;
+
+        for(int i=s.length()-1; i>=0; i--) {
+            for(; j>=0; j--) {
+                if(s[i] == t[j]) {
+                    if(i==0) return true;
+                    j--;
+                    break;
+                }
+            }
+        }
+        
+        return false;
+    }
+    
     bool isSubsequence(string s, string t) {
         if(s.length() == 0) return true;
         
@@ -73,6 +89,8 @@ public:
         
         // vector<vector<int>> dp(s.length()+1, vector<int>(t.length()+1, -1));
         // return solveMem(dp, s, t, 0, 0);
+        
+        // return solveTab(s, t);
         
         return solveOptimised(s, t);
     }

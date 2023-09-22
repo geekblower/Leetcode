@@ -85,7 +85,7 @@ public:
     }
     
     bool isSubsequence(string s, string t) {
-        if(s.length() == 0) return true;
+        // if(s.length() == 0) return true;
         
         // return solve(s, t, 0, 0);
         
@@ -94,6 +94,15 @@ public:
         
         // return solveTab(s, t);
         
-        return solveOptimised(s, t);
+        // return solveOptimised(s, t);
+        
+        int i=0, j=0;
+        
+        while(i<s.length() && j<t.length()) {
+            if(s[i] == t[j]) i++;
+            j++;
+        }
+        
+        return i == s.length();
     }
 };
